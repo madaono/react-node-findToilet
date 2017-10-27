@@ -79,6 +79,12 @@ router.post('/write', function(req, res, next){
 
 // 阅读模块写入接口
 router.post('/write_config', function(req,res,next){
+    if(!req.session.user){
+        return res.send({
+          status: 0,
+          info: '未鉴权认证'
+        });
+    };
     // 后期增加对数据的验证
     // 防xss攻击 npm install xss 
     // require('xss')
@@ -105,7 +111,31 @@ router.post('/write_config', function(req,res,next){
         })
     })
    
+});
+// login in 
+router.post('/login', function(req, res, next){
+    var username = req.body.username;
+    var password = req.body.password;
+    console.log(req.body)
+    // todo 验证
+    // xss处理，判空
+    // 密码加密 md5(password + '随机字符串') 可多次加密
+    if(username === 'admin' && password === '123456'){
+        req.session.user = {
+            username: username
+        };
+        return res.send({
+            status:1,
+            info:'login success'
+        })
+    }
+    return res.send({
+        status:0,
+        info: '登录失败'
+    });
 })
+
+
 
 // 全局唯一标识符（GUID，Globally Unique Identifier）也称作 UUID(Universally Unique IDentifier) 。在生成一些节点的时候需要通过唯一ID来标记
 function generateUUID() {

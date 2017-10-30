@@ -10,10 +10,11 @@ import {
 
 import TWebView from './twebview';
 
+let source = (Platform.OS == 'ios')? require('../html/nearby.html'):'file:///android_assets/nearby.html';
  export default class toiletPage extends Component{
      render(){
          return (
-            <TWebView url='http://www.acfun.cn' />
+            <TWebView url={source} />
          );
      }
  }

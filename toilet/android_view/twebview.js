@@ -28,7 +28,7 @@ export default class TWebView extends Component{
             <View style={styles.container}>
                 {
                     this.state.isError?
-                        <View>
+                        <View style={ styles.errInfo }>
                             <Text>网络有问题，请重新刷新</Text>
                         </View>
                     :
@@ -46,5 +46,10 @@ export default class TWebView extends Component{
 const styles = StyleSheet.create({
     container:{
         flex:1
+    },
+    errInfo:{
+        marginTop:100,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })

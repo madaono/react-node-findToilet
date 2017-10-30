@@ -4,8 +4,7 @@ import {
     Platform,
     StyleSheet,
     Text,
-    View,
-    Button
+    View
   } from 'react-native';
 
  export default class readPage extends Component{

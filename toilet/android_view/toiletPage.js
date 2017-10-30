@@ -5,15 +5,15 @@ import {
     StyleSheet,
     Text,
     View,
-    Button
+    WebView
   } from 'react-native';
+
+import TWebView from './twebview';
 
  export default class toiletPage extends Component{
      render(){
          return (
-            <View style={styles.mainView}>
-                <Text>卫生间页面</Text>
-            </View>
+            <TWebView url='http://www.acfun.cn' />
          );
      }
  }

@@ -30,6 +30,15 @@
     var map = new AMap.Map('container',{
         zoom: 15
     });
+
+    var onComplete = function(data){
+        map.clearMap();
+        doSearch(data)
+    };
+    var onError = function(){
+        alert('定位失败，请开启定位')
+    };
+
     map.plugin(["AMap.ControlBar"],function(){
         var controlBar = new AMap.ControlBar(Options)
         map.addControl(controlBar)
@@ -49,8 +58,32 @@
         panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
         zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
     });
-    mapObj.addControl(geolocation);
+    map.addControl(geolocation);
+    geolocation.getCurrentPosition();
+    AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+    AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
 });
 
+    function doSearch(data){
+        if(data.info === 'SUCCESS'){
+            var pos = data.position;
+            AMap.service(["AMap.PlaceSearch"], function() {
+                var placeSearch = new AMap.PlaceSearch({ //构造地点查询类
+                    pageSize: 10,
+                    pageIndex: 1,
+                    map: map,
+                });
+                //关键字查询
+                placeSearch.searchNearBy('卫生间', pos, 2000, function(status, result) {
+                    if(status === 'complete' && result.info === 'OK'){
+                        var pois  = result.poiList.pois;
+                    }
+                });
+                AMap.event.addListener(placeSearch,'complete',function(data){
+
+                })
+            });
+        }
+    };
   </script>
 </html>
